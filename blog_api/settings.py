@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 from datetime import timedelta
 
@@ -96,13 +96,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'blog_api.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('django.db.backends.postgresql'),  # По умолчанию PostgreSQL
+        'NAME': os.getenv('blog_db'),  # Название БД
+        'USER': os.getenv('blog_user'),  # Пользователь БД
+        'PASSWORD': os.getenv('blog_password'),  # Пароль
+        'HOST': os.getenv('db'),  # Имя сервиса из docker-compose.yml
+        'PORT': os.getenv('5432'),  # Порт PostgreSQL по умолчанию
     }
 }
 
